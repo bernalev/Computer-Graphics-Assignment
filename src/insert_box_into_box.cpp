@@ -9,3 +9,10 @@ void insert_box_into_box(
   ////////////////////////////////////////////////////////////////////////////
 }
 
+// Grow a box `B` by inserting a box `A`.
+//
+// Inputs:
+//   A  bounding box to be inserted
+//   B  bounding box to be grown
+// Outputs:
+//   B  bounding box grown to include original contents and A
