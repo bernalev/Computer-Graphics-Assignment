@@ -49,14 +49,22 @@ AABBTree::AABBTree(
 		std::vector<std::shared_ptr<Object>> left;
 		std::vector<std::shared_ptr<Object>> right;
 		for (int i = 0; i < objects.size(); i++) {
-			if (objects[i]->box.center()[axis] < m) {
+			if (objects[i]->box.center()[axis] < m)
 				left.push_back(objects[i]);
-			}
-			else
+			else 
 				right.push_back(objects[i]);
 		}
-		if (a_depth == 100) {}
-		else{
+	
+		// this could happen if a large object determines the size of the box
+		//	 and is placed on the right (box center == m), with the rest of the objects
+		if (left.size() == 0){
+			left.push_back(right[right.size()-1]);
+			right.pop_back();
+		}
+		else if (right.size() == 0) {
+			right.push_back(left[left.size() - 1]);
+			left.pop_back();
+		}
 
 		if (left.size() == 1)
 			this->left = left[0];
@@ -67,19 +75,6 @@ AABBTree::AABBTree(
 			this->right = right[0];
 		else
 			this->right = std::make_shared<AABBTree>(right, a_depth + 1);
-		}
+		
 	}
-	
-
 }
-// Construct a axis-aligned bounding box tree given a list of objects. Use the
-  // midpoint along the longest axis of the box containing the given objects to
-  // determine the left-right split.
-  //
-  // Inputs:
-  //   objects  list of objects to store in this AABBTree
-  //   Optional inputs:
-  //     depth  depth of this tree (usually set by constructor of parent as
-  //       their depth+1)
-  // Side effects: num_leaves is set to objects.size() and left/right pointers
-  // set to subtrees or leaf Objects accordingly.
