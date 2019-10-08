@@ -8,15 +8,17 @@ bool AABBTree::ray_intersect(
   double & t,
   std::shared_ptr<Object> & descendant) const 
 {
+	// page 303 of the textbook: pseudo code for hit traversal 
+	
 	// if ray doesn't even hit bounding box
 	if (!ray_intersect_box(ray, this->box, min_t, max_t))
 		return false;
 	
-	// page 303 of the textbook: pseudo code for hit traversal 
 	double t_l, t_r;
 	std::shared_ptr<Object> desc_l, desc_r;
 	
-	// Test whether cast failed (points to a primitive)
+	// Test whether cast failed 
+	// (points to a primitive - which doesn't set a descendant, which is itself)
 	if (!std::dynamic_pointer_cast<AABBTree>(this->left))
 		desc_l = this->left; 	
 	if (!std::dynamic_pointer_cast<AABBTree>(this->right))

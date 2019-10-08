@@ -4,15 +4,11 @@ void insert_box_into_box(
   const BoundingBox & A,
   BoundingBox & B)
 {
-  ////////////////////////////////////////////////////////////////////////////
-  // Add your code here
-  ////////////////////////////////////////////////////////////////////////////
+	// if B's maxes aren't large enough to include A, expand; repeat with mins
+	for (int i = 0; i < 3; i++) {
+		if (B.max_corner[i] < A.max_corner[i])
+			B.max_corner[i] = A.max_corner[i];
+		if (B.min_corner[i] > A.min_corner[i])
+			B.min_corner[i] = A.min_corner[i];
+	}
 }
-
-// Grow a box `B` by inserting a box `A`.
-//
-// Inputs:
-//   A  bounding box to be inserted
-//   B  bounding box to be grown
-// Outputs:
-//   B  bounding box grown to include original contents and A

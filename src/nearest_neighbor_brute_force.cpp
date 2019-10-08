@@ -7,9 +7,15 @@ void nearest_neighbor_brute_force(
   int & I,
   double & sqrD)
 {
-  ////////////////////////////////////////////////////////////////////////////
-  // Replace with your code here:
-  I = -1;
-  sqrD = 0;
-  ////////////////////////////////////////////////////////////////////////////
+	double d, lowest_d = std::numeric_limits<double>::infinity();
+	
+	for (int i = 0; i < points.rows(); i++) {
+		d = (points.row(i) - query).squaredNorm();
+		if (d < lowest_d) {
+			lowest_d = d;
+			I = i;
+		}
+	}
+
+	sqrD = lowest_d;
 }

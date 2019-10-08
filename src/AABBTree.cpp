@@ -10,6 +10,7 @@ AABBTree::AABBTree(
 	// page 305 of textbook has pseudo code for creating the tree
 	BoundingBox C;
 
+	// never deal with null pointers ~ 2 objects => the 2 pointers point to them 
 	if (num_leaves == 2) {
 		this->left = objects[0];
 		this->right = objects[1];
