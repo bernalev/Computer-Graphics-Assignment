@@ -10,7 +10,11 @@ bool point_AABBTree_squared_distance(
     std::shared_ptr<Object> & descendant)
 {
 	// pseudo code for algo in the README for assignment 4
-	std::priority_queue<std::pair<double, std::shared_ptr<Object>>> q;
+
+	// a min heap
+	std::priority_queue<std::pair<double, std::shared_ptr<Object>>, 
+		std::vector<std::pair<double, std::shared_ptr<Object>>>,
+		std::greater<std::pair<double, std::shared_ptr<Object>>> > q;
 
 	// distance to root's box 
 	double d_r = point_box_squared_distance(query, root->box);
@@ -23,10 +27,12 @@ bool point_AABBTree_squared_distance(
 	while (!q.empty()) {
 		popped = q.top();
 		q.pop();
+
+		// this isn't great because d stays infinite until the leaves are reached 
+		// on a balanced tree, which it has been approx. designed to be, would reach about all of the nodes
 		if (popped.first < d) {
 			std::shared_ptr<AABBTree> aabb = std::dynamic_pointer_cast<AABBTree>(popped.second);
 			if (!aabb) {//subtree is a leaf
-
 				popped.second->point_squared_distance(query, min_sqrd, max_sqrd, sqrd, desc);
 				if (sqrd < d && sqrd >= min_sqrd && sqrd <= max_sqrd) {
 					d = sqrd;// distance from query to leaf object
