@@ -28,8 +28,6 @@ bool point_AABBTree_squared_distance(
 		popped = q.top();
 		q.pop();
 
-		// this isn't great because d stays infinite until the leaves are reached 
-		// on a balanced tree, which it has been approx. designed to be, would reach about all of the nodes
 		if (popped.first < d) {
 			std::shared_ptr<AABBTree> aabb = std::dynamic_pointer_cast<AABBTree>(popped.second);
 			if (!aabb) {//subtree is a leaf
